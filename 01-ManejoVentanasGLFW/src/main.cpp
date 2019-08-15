@@ -19,7 +19,8 @@ GLFWwindow * window;
 bool exitApp = false;
 int lastMousePosX;
 int lastMousePosY;
-
+int colorStatus = 0;
+int colorStatatus = 0;
 double deltaTime;
 
 // Se definen todos las funciones.
@@ -79,7 +80,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	}
 
 	glViewport(0, 0, screenWidth, screenHeight);
-	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+	glClearColor(1.0f, 0.0f, 0.4f, 0.0f);
 }
 
 void destroy() {
@@ -99,7 +100,22 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 		case GLFW_KEY_ESCAPE:
 			exitApp = true;
 			break;
-		}
+
+		case GLFW_KEY_R:
+			colorStatatus = 0;
+			glClearColor(1.0, 1.0, 0.0, 0.0);
+			break;
+
+		case GLFW_KEY_G:
+			colorStatatus = 1;
+			glClearColor(1.0, 0.0, 1.0, 0.0);
+			break;
+
+		case GLFW_KEY_B:
+			colorStatatus = 2;
+			glClearColor(1.0, 1.0, 1.0, 0.0);
+			break;
+		}	
 	}
 }
 
@@ -113,9 +129,12 @@ void mouseButtonCallback(GLFWwindow* window, int button, int state, int mod) {
 		switch (button) {
 		case GLFW_MOUSE_BUTTON_RIGHT:
 			std::cout << "lastMousePos.y:" << lastMousePosY << std::endl;
+			//glClearColor(0.3,0.0,0.4,0.0);
 			break;
 		case GLFW_MOUSE_BUTTON_LEFT:
 			std::cout << "lastMousePos.x:" << lastMousePosX << std::endl;
+			//glClearColor(0.1, 0.0, 0.3, 0.0);
+			//colorStatus();
 			break;
 		case GLFW_MOUSE_BUTTON_MIDDLE:
 			std::cout << "lastMousePos.x:" << lastMousePosX << std::endl;
@@ -139,12 +158,20 @@ void applicationLoop() {
 	while (psi) {
 		psi = processInput(true);
 		glClear(GL_COLOR_BUFFER_BIT);
+		if (colorStatus == 0)
+			glClearColor(1.0, 0.0f, 0.4, 0.0);
+		else if (colorStatus == 1)
+			glClearColor(0.0, 1.0, 0.4, 0.0);
+		else if (colorStatus == 2)
+			glClearColor(0.0, 0.0f, 1.0, 0.0);
+		else if (colorStatus == 20)
+			glClearColor(0.0, 0.0f, 1.0, 0.0);
 		glfwSwapBuffers(window);
 	}
 }
 
 int main(int argc, char ** argv) {
-	init(800, 700, "Window GLFW", false);
+	init(1600, 900, "W10", false);
 	applicationLoop();
 	destroy();
 	return 1;
