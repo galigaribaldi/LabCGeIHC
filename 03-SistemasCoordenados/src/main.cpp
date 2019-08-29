@@ -42,7 +42,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen);
 void destroy();
 bool processInput(bool continueApplication = true);
 
-GLuint VAO, VBO;
+GLuint VAO, VBO, EBO;
 
 typedef struct _Vertex {
 	glm::vec3 m_Pos;
@@ -143,6 +143,8 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	// Se crea el ID del VAO
 	// Se crea el VBO (buffer de datos) asociado al VAO
 	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
+
 	/*
 	El VAO es un objeto que nos permite almacenar la estructura de nuestros datos,
 	Esto es de gran utilidad debido a que solo se configura la estructura una vez
@@ -157,7 +159,8 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	// Copiamos los datos de los vertices a memoria del procesador grafico
 	//           TIPO DE BUFFER     TAMANIO          DATOS    MODO (No cambian los datos)
 	glBufferData(GL_ARRAY_BUFFER, bufferSize, vertices, GL_STATIC_DRAW);
-
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 	// Se crea un indice para el atributo del vertice posicion, debe corresponder al location del atributo del shader
 	// indice del atributo, Cantidad de datos, Tipo de dato, Normalizacion, Tamanio del bloque (Stride), offset
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*)0);
