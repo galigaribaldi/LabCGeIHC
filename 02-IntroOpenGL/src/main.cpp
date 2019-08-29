@@ -15,7 +15,8 @@ int screenWidth;
 int screenHeight;
 
 GLFWwindow * window;
-
+bool dibujo1 = true;
+bool dibujo2 = false;
 bool exitApp = false;
 int lastMousePosX;
 int lastMousePosY;
@@ -32,7 +33,7 @@ void destroy();
 bool processInput(bool continueApplication = true);
 
 GLint vertexShaderID, fragmentShaderID, shaderProgramID;
-GLuint VAO, VBO;
+GLuint VAO[2], VBO[2];
 typedef struct _Vertex {
 	float m_Pos[3];
 	float m_Color[3];
@@ -164,6 +165,71 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 			{ { 0.5f, 0.5f, 0.0f}, { 0.0f, 0.0f, 1.0f }},
 			{{-0.5f, 0.5f, 0.0f}, {1.0f, 0.0f, 1.0f}}
 	};*/
+	Vertex vertex_estrella[] = { {{0.0,0.0,0.0},{0.2,0.3,0.5}},
+		{{0.2,0.7,0.0},{0.5,0.3,0.7}},
+		{{0.0,0.7,0.0},{0.2,0.4,0.1}},
+		{{0.0,0.7,0.0},{0.1,0.6,0.45}},
+		{{0.2,0.7,0.0},{0.5,0.3,0.7}},
+		{{0.0,0.85,0.0},{0.4,0.1,0.0}},
+		{{0.0,0.0,0.0},{0.2,0.3,0.5}},
+		//Parte de abajo
+		{{-0.2,0.7,0.0},{0.5,0.3,0.7}},
+		{{0.0,0.7,0.0},{0.2,0.4,0.1}},
+		{{0.0,0.7,0.0},{0.1,0.6,0.45}},
+		{{-0.2,0.7,0.0},{0.5,0.3,0.7}},
+		{{0.0,0.85,0.0},{0.5,0.3,0.7}},
+		//// Fin de estrella 1
+
+		//// Estrella 2
+		{{0.0,0.0,0.0},{0.2,0.3,0.5}},
+		{{0.2,-0.7,0.0},{0.5,0.3,0.7}},
+		{{0.0,-0.7,0.0},{0.2,0.4,0.1}},
+		{{0.0,-0.7,0.0},{0.1,0.6,0.45}},
+		{{0.2,-0.7,0.0},{0.5,0.3,0.7}},
+		{{0.0,-0.85,0.0},{0.4,0.1,0.0}},
+		{{0.0,0.0,0.0},{0.2,0.3,0.5}},
+		//Parte de abajo
+		{{-0.2,-0.7,0.0},{0.5,0.3,0.7}},
+		{{0.0,-0.7,0.0},{0.2,0.4,0.1}},
+		{{0.0,-0.7,0.0},{0.1,0.6,0.45}},
+		{{-0.2,-0.7,0.0},{0.5,0.3,0.7}},
+		{{0.0,-0.85,0.0},{0.5,0.3,0.7}},
+		//// Fin de estrella 2
+
+		//// Estrella 3
+		{{0.0,0.0,0.0},{0.2,0.3,0.5}},
+		{{0.7,0.2,0.0},{0.5,0.3,0.7}},
+		{{0.7,0.0,0.0},{0.2,0.4,0.1}},
+		{{0.7,0.0,0.0},{0.1,0.6,0.45}},
+		{{0.7,0.2,0.0},{0.5,0.3,0.7}},
+		{{0.85,0.0,0.0},{0.4,0.1,0.0}},
+		{{0.0,0.0,0.0},{0.2,0.3,0.5}},
+		//Parte de abajo
+		{{0.7,-0.2,0.0},{0.5,0.3,0.7}},
+		{{0.7,0.0,0.0},{0.2,0.4,0.1}},
+		{{0.7,0.0,0.0},{0.1,0.6,0.45}},
+		{{0.7,-0.2,0.0},{0.5,0.3,0.7}},
+		{{0.85,0.0,0.0},{0.5,0.3,0.7}},
+		//// Fin de estrella 3
+
+		//// Estrella 4
+		{{0.0,0.0,0.0},{0.2,0.3,0.5}},
+		{{-0.7,0.2,0.0},{0.5,0.3,0.7}},
+		{{-0.7,0.0,0.0},{0.2,0.4,0.1}},
+		{{-0.7,0.0,0.0},{0.1,0.6,0.45}},
+		{{-0.7,0.2,0.0},{0.5,0.3,0.7}},
+		{{-0.85,0.0,0.0},{0.4,0.1,0.0}},
+		{{0.0,0.0,0.0},{0.2,0.3,0.5}},
+		//Parte de abajo
+
+		{{-0.7,-0.2,0.0},{0.5,0.3,0.7}},
+		{{-0.7,0.0,0.0},{0.2,0.4,0.1}},
+		{{-0.7,0.0,0.0},{0.1,0.6,0.45}},
+		{{-0.7,-0.2,0.0},{0.5,0.3,0.7}},
+		{{-0.85,0.0,0.0},{0.5,0.3,0.7}}
+
+		//// Fin de estrella 4
+	};
 	/* Estrella
 	Vertex vertices[] = {
 		///Estrella 1
@@ -380,28 +446,48 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	Esto es de gran utilidad debido a que solo se configura la estructura una vez
 	y se puede utilizar en el loop de renderizado
 	*/
-	glGenVertexArrays(1, &VAO);
+	glGenVertexArrays(2, VAO);
 	// Cambiamos el estado para indicar que usaremos el id del VAO
-	glBindVertexArray(VAO);
+	glGenBuffers(2, VBO);
+
+	glBindVertexArray(VAO[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_estrella), vertex_estrella, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*)0);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*)rgbOffset);
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+
+	///////////////////////////////////////////
+	glBindVertexArray(VAO[1]);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*)0);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*)rgbOffset);
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
 	// Se crea el VBO (buffer de datos) asociado al VAO
-	glGenBuffers(1, &VBO);
+
 
 	// Cambiamos el estado para indicar que usaremos el id del VBO como Arreglo de vertices (GL_ARRAY_BUFFER)
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+//	glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
 	// Copiamos los datos de los vertices a memoria del procesador grafico
 	//           TIPO DE BUFFER     TAMANIO          DATOS    MODO (No cambian los datos)
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	// Se crea un indice para el atributo del vertice posicion, debe corresponder al location del atributo del shader
 	// indice del atributo, Cantidad de datos, Tipo de dato, Normalizacion, Tamanio del bloque (Stride), offset
 	// vertexSize = 6 * sizeof(float) = 24 bytes
 	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*)0);
 	// Se habilita el atributo del vertice con indice 0 (posicion)
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*)0);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*)rgbOffset);
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*)0);
+	//glEnableVertexAttribArray(0);
+	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, vertexSize, (GLvoid*)rgbOffset);
+	//glEnableVertexAttribArray(0);
+	//glEnableVertexAttribArray(1);
+
 
 	// Ya que se configuro, se regresa al estado original
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -424,15 +510,18 @@ void destroy() {
 
 	glDeleteProgram(shaderProgramID);
 
-	glBindVertexArray(VAO);
+	glBindVertexArray(VAO[1]);
 	glDisableVertexAttribArray(0);
 
-	glBindBuffer(GL_ARRAY_BUFFER,VBO);
-	glDeleteBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER,VBO[1]);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[2]);
+	glBindBuffer(GL_ARRAY_BUFFER, VAO[1]);
+	glBindBuffer(GL_ARRAY_BUFFER, VAO[2]);
+	glDeleteBuffers(2, VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glBindVertexArray(0);
-	glDeleteVertexArrays(1, &VAO);
+	glDeleteVertexArrays(2, VAO);
 }
 
 void reshapeCallback(GLFWwindow* Window, int widthRes, int heightRes) {
@@ -446,6 +535,14 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 		switch (key) {
 		case GLFW_KEY_ESCAPE:
 			exitApp = true;
+			break;
+		case GLFW_KEY_0:
+			dibujo1 = true;
+			dibujo2 = false;
+			break;
+		case GLFW_KEY_1:
+			dibujo2 = true;
+			dibujo1 = false;
 			break;
 		}
 	}
@@ -490,12 +587,21 @@ void applicationLoop() {
 
 		// Esta linea esta comentada debido a que de momento no se usan los shaders
 		glUseProgram(shaderProgramID);
+		if (dibujo1 == true){
+			// Se indica el buffer de datos y la estructura de estos utilizando solo el id del VAO
+			glBindVertexArray(VAO[0]);
+			// Primitiva de ensamble
+			glDrawArrays(GL_TRIANGLES, 0, 200);
+			glBindVertexArray(0);
+		}
+		else {
+			glBindVertexArray(VAO[1]);
+			// Primitiva de ensamble
+			glDrawArrays(GL_TRIANGLES, 0, 200);
+			glBindVertexArray(0);
+		}
 
-		// Se indica el buffer de datos y la estructura de estos utilizando solo el id del VAO
-		glBindVertexArray(VAO);
-		// Primitiva de ensamble
-		glDrawArrays(GL_TRIANGLES, 0, 200);
-		glBindVertexArray(0);
+
 
 		glfwSwapBuffers(window);
 	}
