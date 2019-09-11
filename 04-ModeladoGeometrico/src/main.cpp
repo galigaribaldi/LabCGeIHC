@@ -271,8 +271,43 @@ void applicationLoop() {
 		sphere1.enableWireMode();
 		sphere1.render(glm::scale(o2, glm::vec3(0.20f, 0.20f, 0.10f)));
 
-		shader.turnOff();
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		/////////////////////////////////////Parte izquierda//////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		//articulacion
+		glm::mat4 ji1 = glm::translate(model, glm::vec3(-0.5f, 0.0f, 0.0f));//se agrego esta linea para empezar a modelar a la esponja
+		sphere1.enableWireMode();
+		sphere1.render(glm::scale(ji1, glm::vec3(0.1, 0.1, 0.1)));
 
+
+		//hueso 1
+		glm::mat4 li1 = glm::translate(ji1, glm::vec3(-0.25f, 0.0f, 0.0f));
+		li1 = glm::rotate(li1, glm::radians(90.0f), glm::vec3(0, 0, 1.0));
+		cylinder1.enableWireMode();
+		cylinder1.render(glm::scale(li1, glm::vec3(0.1, 0.5, 0.1)));
+
+		//articulacion 2
+		glm::mat4 ji2 = glm::translate(ji1, glm::vec3(-0.5f, 0.0f, 0.0f));
+		sphere1.enableWireMode();
+		sphere1.render(glm::scale(ji2, glm::vec3(-0.1, 0.1, 0.1)));
+
+		//hueso 2
+		glm::mat4 li2 = glm::translate(ji2, glm::vec3(-0.25, 0.0, 0.0));
+		li2 = glm::rotate(li2, glm::radians(90.0f), glm::vec3(0, 0, 1.0));
+		cylinder1.enableWireMode();
+		cylinder1.render(glm::scale(li2, glm::vec3(-0.1, 0.5, 0.1)));
+
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		/////////////////////////////////////Parte Abajo///////////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
+
+		//articulacion
+		glm::mat4 ja1 = glm::translate(model, glm::vec3(-0.25f, -0.5f, 0.0f));//se agrego esta linea para empezar a modelar a la esponja
+		sphere1.enableWireMode();
+		sphere1.render(glm::scale(ja1, glm::vec3(-0.1, -0.1, 0.1)));
+
+		shader.turnOff();
 		glfwSwapBuffers(window);
 	}
 }
