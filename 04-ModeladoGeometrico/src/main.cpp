@@ -305,8 +305,24 @@ void applicationLoop() {
 		//articulacion
 		glm::mat4 ja1 = glm::translate(model, glm::vec3(-0.25f, -0.5f, 0.0f));//se agrego esta linea para empezar a modelar a la esponja
 		sphere1.enableWireMode();
-		sphere1.render(glm::scale(ja1, glm::vec3(-0.1, -0.1, 0.1)));
+		sphere1.render(glm::scale(ja1, glm::vec3(-0.1, 0.1, 0.1)));
 
+		//hueso 1
+		glm::mat4 la1 = glm::translate(ja1, glm::vec3(-0.015f, -0.25f, 0.0f));
+		la1 = glm::rotate(la1, glm::radians(180.0f), glm::vec3(0, 0, 1.0));
+		cylinder1.enableWireMode();
+		cylinder1.render(glm::scale(la1, glm::vec3(0.1, 0.5, 0.1)));
+
+		//articulacion 2
+		glm::mat4 ja2 = glm::translate(ja1, glm::vec3(-0.015f, -0.5f, 0.0f));
+		sphere1.enableWireMode();
+		sphere1.render(glm::scale(ja2, glm::vec3(0.1, 0.1, 0.1)));
+
+		//hueso 2
+		glm::mat4 la2 = glm::translate(ja2, glm::vec3(-0.015f, -0.25f, 0.0f));
+		la2 = glm::rotate(la2, glm::radians(180.0f), glm::vec3(0, 0, 1.0));
+		cylinder1.enableWireMode();
+		cylinder1.render(glm::scale(la2, glm::vec3(0.1, 0.5, 0.1)));
 		shader.turnOff();
 		glfwSwapBuffers(window);
 	}
