@@ -271,6 +271,11 @@ void applicationLoop() {
 		sphere1.enableWireMode();
 		sphere1.render(glm::scale(o2, glm::vec3(0.20f, 0.20f, 0.10f)));
 
+		//Nariz
+		glm::mat4 n1 = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.05f));
+		sphere1.enableWireMode();
+		sphere1.render(glm::scale(n1, glm::vec3(0.20f, 0.20f, 0.10f)));
+
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		/////////////////////////////////////Parte izquierda//////////////////////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -323,6 +328,31 @@ void applicationLoop() {
 		la2 = glm::rotate(la2, glm::radians(180.0f), glm::vec3(0, 0, 1.0));
 		cylinder1.enableWireMode();
 		cylinder1.render(glm::scale(la2, glm::vec3(0.1, 0.5, 0.1)));
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//articulacion 2
+		glm::mat4 jaa1 = glm::translate(model, glm::vec3(0.25f, -0.5f, 0.0f));//se agrego esta linea para empezar a modelar a la esponja
+		sphere1.enableWireMode();
+		sphere1.render(glm::scale(jaa1, glm::vec3(-0.1, 0.1, 0.1)));
+
+		//hueso 12
+		glm::mat4 laa1 = glm::translate(jaa1, glm::vec3(0.015f, -0.25f, 0.0f));
+		laa1 = glm::rotate(laa1, glm::radians(180.0f), glm::vec3(0, 0, 1.0));
+		cylinder1.enableWireMode();
+		cylinder1.render(glm::scale(laa1, glm::vec3(0.1, 0.5, 0.1)));
+
+		//articulacion 22
+		glm::mat4 jaa2 = glm::translate(jaa1, glm::vec3(0.015f, -0.5f, 0.0f));
+		sphere1.enableWireMode();
+		sphere1.render(glm::scale(jaa2, glm::vec3(0.1, 0.1, 0.1)));
+
+		//hueso 22
+		glm::mat4 laa2 = glm::translate(jaa2, glm::vec3(0.015f, -0.25f, 0.0f));
+		laa2 = glm::rotate(laa2, glm::radians(180.0f), glm::vec3(0, 0, 1.0));
+		cylinder1.enableWireMode();
+		cylinder1.render(glm::scale(laa2, glm::vec3(0.1, 0.5, 0.1)));
+
 		shader.turnOff();
 		glfwSwapBuffers(window);
 	}
