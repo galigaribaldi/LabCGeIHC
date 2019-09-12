@@ -45,6 +45,16 @@ int lastMousePosY, offsetY;
 //int offsetX = 0;
 //int offsetY = 0;
 
+///Brazo 1 (izquierdo)
+float rot1 = 0.0, rot2 = 0.0, rot3 = 0.0, rot4 = 0.0;
+///Brazo 2 (Derecho)
+float rot1d = 0.0, rot2d = 0.0, rot3d = 0.0, rot4d = 0.0;
+///Pierna 1 (Derecho)
+float rot1pd = 0.0, rot2pd = 0.0, rot3pd = 0.0, rot4pd = 0.0;
+///Pierna 2 (Izquierdo)
+float rot1pi = 0.0, rot2pi = 0.0, rot3pi = 0.0, rot4pi = 0.0;
+bool sentido = true;
+
 double deltaTime;
 
 // Se definen todos las funciones.
@@ -192,6 +202,90 @@ bool processInput(bool continueApplication) {
 	TimeManager::Instance().CalculateFrameRate(false);
 	deltaTime = TimeManager::Instance().DeltaTime;
 
+	///rotacion Brazo Izquierdo
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		sentido = false;
+	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS && sentido)
+		rot1 += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS && !sentido)
+		rot1 -= 0.01;
+	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS && sentido)
+		rot2 += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS && !sentido)
+		rot2 -= 0.01;
+	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS && sentido)
+		rot3 += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS && !sentido)
+		rot3 -= 0.01;
+	if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS && sentido)
+		rot4 += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS && !sentido)
+		rot4 -= 0.01;
+	sentido = true;
+
+	///rotacion Brazo derecho
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		sentido = false;
+	if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS && sentido)
+		rot1d += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS && !sentido)
+		rot1d -= 0.01;
+	if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS && sentido)
+		rot2d += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS && !sentido)
+		rot2d -= 0.01;
+	if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS && sentido)
+		rot3d += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS && !sentido)
+		rot3d -= 0.01;
+	if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS && sentido)
+		rot4d += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS && !sentido)
+		rot4d -= 0.01;
+	sentido = true;
+
+	///rotacion Pierna Derecha
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		sentido = false;
+	if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS && sentido)
+		rot1pd += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS && !sentido)
+		rot1pd -= 0.01;
+	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS && sentido)
+		rot2pd += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS && !sentido)
+		rot2pd -= 0.01;
+	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS && sentido)
+		rot3pd += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS && !sentido)
+		rot3pd -= 0.01;
+	if (glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS && sentido)
+		rot4pd += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS && !sentido)
+		rot4pd -= 0.01;
+	sentido = true;
+
+	///rotacion Pierna Izquierda
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		sentido = false;
+	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS && sentido)
+		rot1pi += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS && !sentido)
+		rot1pi -= 0.01;
+	if (glfwGetKey(window, GLFW_KEY_N) == GLFW_PRESS && sentido)
+		rot2pi += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_N) == GLFW_PRESS && !sentido)
+		rot2pi -= 0.01;
+	if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS && sentido)
+		rot3pi += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS && !sentido)
+		rot3pi -= 0.01;
+	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && sentido)
+		rot4pi += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && !sentido)
+		rot4pi -= 0.01;
+	sentido = true;
+
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)//se agregan estas dos lineas para mover la camara, hacia enfrente
 		camera->moveFrontCamera(true, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)//se agregan estas dos lineas para mover la camara, hacia atras
@@ -243,6 +337,8 @@ void applicationLoop() {
 		glm::mat4 j1 = glm::translate(model, glm::vec3(0.5f, 0.0f, 0.0f));//se agrego esta linea para empezar a modelar a la esponja
 		sphere1.enableWireMode();
 		sphere1.render(glm::scale(j1, glm::vec3(0.1, 0.1, 0.1)));
+		j1 = glm::rotate(j1, rot1, glm::vec3(0, 0, 1));
+		j1 = glm::rotate(j1, rot2, glm::vec3(0, 1, 0));
 
 		//hueso 1
 		glm::mat4 l1 = glm::translate(j1, glm::vec3(0.25f, 0.0f, 0.0f));
@@ -254,6 +350,8 @@ void applicationLoop() {
 		glm::mat4 j2 = glm::translate(j1, glm::vec3(0.5f, 0.0f, 0.0f));
 		sphere1.enableWireMode();
 		sphere1.render(glm::scale(j2, glm::vec3(0.1, 0.1, 0.1)));
+		j2 = glm::rotate(j2, rot3, glm::vec3(0, 0, 1));
+		j2 = glm::rotate(j2, rot4, glm::vec3(0, 1, 0));
 
 		//hueso 2
 		glm::mat4 l2 = glm::translate(j2, glm::vec3(0.25, 0.0, 0.0));
@@ -284,7 +382,8 @@ void applicationLoop() {
 		glm::mat4 ji1 = glm::translate(model, glm::vec3(-0.5f, 0.0f, 0.0f));//se agrego esta linea para empezar a modelar a la esponja
 		sphere1.enableWireMode();
 		sphere1.render(glm::scale(ji1, glm::vec3(0.1, 0.1, 0.1)));
-
+		ji1 = glm::rotate(ji1, rot1d, glm::vec3(0, 0, 1));
+		ji1 = glm::rotate(ji1, rot2d, glm::vec3(0, 1, 0));
 
 		//hueso 1
 		glm::mat4 li1 = glm::translate(ji1, glm::vec3(-0.25f, 0.0f, 0.0f));
@@ -296,6 +395,8 @@ void applicationLoop() {
 		glm::mat4 ji2 = glm::translate(ji1, glm::vec3(-0.5f, 0.0f, 0.0f));
 		sphere1.enableWireMode();
 		sphere1.render(glm::scale(ji2, glm::vec3(-0.1, 0.1, 0.1)));
+		ji2 = glm::rotate(ji2, rot3d, glm::vec3(0, 0, 1));
+		ji2 = glm::rotate(ji2, rot4d, glm::vec3(0, 1, 0));
 
 		//hueso 2
 		glm::mat4 li2 = glm::translate(ji2, glm::vec3(-0.25, 0.0, 0.0));
@@ -311,6 +412,8 @@ void applicationLoop() {
 		glm::mat4 ja1 = glm::translate(model, glm::vec3(-0.25f, -0.5f, 0.0f));//se agrego esta linea para empezar a modelar a la esponja
 		sphere1.enableWireMode();
 		sphere1.render(glm::scale(ja1, glm::vec3(-0.1, 0.1, 0.1)));
+		ja1 = glm::rotate(ja1, rot1pd, glm::vec3(0, 0, 1));
+		ja1 = glm::rotate(ja1, rot2pd, glm::vec3(0, 1, 0));
 
 		//hueso 1
 		glm::mat4 la1 = glm::translate(ja1, glm::vec3(-0.015f, -0.25f, 0.0f));
@@ -322,7 +425,8 @@ void applicationLoop() {
 		glm::mat4 ja2 = glm::translate(ja1, glm::vec3(-0.015f, -0.5f, 0.0f));
 		sphere1.enableWireMode();
 		sphere1.render(glm::scale(ja2, glm::vec3(0.1, 0.1, 0.1)));
-
+		ja2 = glm::rotate(ja2, rot3pd, glm::vec3(0, 0, 1));
+		ja2 = glm::rotate(ja2, rot4pd, glm::vec3(0, 1, 0));
 		//hueso 2
 		glm::mat4 la2 = glm::translate(ja2, glm::vec3(-0.015f, -0.25f, 0.0f));
 		la2 = glm::rotate(la2, glm::radians(180.0f), glm::vec3(0, 0, 1.0));
@@ -335,6 +439,8 @@ void applicationLoop() {
 		glm::mat4 jaa1 = glm::translate(model, glm::vec3(0.25f, -0.5f, 0.0f));//se agrego esta linea para empezar a modelar a la esponja
 		sphere1.enableWireMode();
 		sphere1.render(glm::scale(jaa1, glm::vec3(-0.1, 0.1, 0.1)));
+		jaa1 = glm::rotate(jaa1, rot1pi, glm::vec3(0, 0, 1));
+		jaa1 = glm::rotate(jaa1, rot2pi, glm::vec3(0, 1, 0));
 
 		//hueso 12
 		glm::mat4 laa1 = glm::translate(jaa1, glm::vec3(0.015f, -0.25f, 0.0f));
@@ -346,6 +452,8 @@ void applicationLoop() {
 		glm::mat4 jaa2 = glm::translate(jaa1, glm::vec3(0.015f, -0.5f, 0.0f));
 		sphere1.enableWireMode();
 		sphere1.render(glm::scale(jaa2, glm::vec3(0.1, 0.1, 0.1)));
+		jaa2 = glm::rotate(jaa2, rot3pi, glm::vec3(0, 0, 1));
+		jaa2 = glm::rotate(jaa2, rot4pi, glm::vec3(0, 1, 0));
 
 		//hueso 22
 		glm::mat4 laa2 = glm::translate(jaa2, glm::vec3(0.015f, -0.25f, 0.0f));
