@@ -44,6 +44,7 @@ int lastMousePosX, offsetX = 0;
 int lastMousePosY, offsetY = 0;
 
 float rot1 = 0.0, rot2 = 0.0, rot3 = 0.0, rot4 = 0.0;
+float rot0 = 0.0, dz = 0.0;
 bool sentido = true;
 
 double deltaTime;
@@ -223,6 +224,16 @@ bool processInput(bool continueApplication){
 		rot3 += 0.001;
 	if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS && sentido)
 		rot4 += 0.001;
+	////////////////////////////// Gire todo el box
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+		rot0 = 0.001;
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+		rot0 = -0.001;
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+		dz = 0.001;
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+		dz = -0.001;
+
 	sentido = true;
 	glfwPollEvents();
 	return continueApplication;
@@ -230,6 +241,8 @@ bool processInput(bool continueApplication){
 
 void applicationLoop() {
 	bool psi = true;
+	///Quitar esta linea fuera del While
+	glm::mat4 model = glm::mat4(1.0f);
 	while (psi) {
 		psi = processInput(true);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -240,7 +253,8 @@ void applicationLoop() {
 		shader.setMatrix4("projection", 1, false, glm::value_ptr(projection));
 		shader.setMatrix4("view", 1, false, glm::value_ptr(view));
 
-		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0, 0, dz));
+		model = glm::rotate(model, rot0 ,glm::vec3(0, 1, 0));
 
 		//box1.enableWireMode();
 		box1.render(glm::scale(model, glm::vec3(1.0, 1.0, 0.1)));
@@ -281,7 +295,8 @@ void applicationLoop() {
 		sphere2.render(glm::scale(ojo2, glm::vec3(0.2, 0.2, 0.1)));
 
 		shader.turnOff();
-
+		dz = 0;
+		rot0 = 0;
 		glfwSwapBuffers(window);
 	}
 }

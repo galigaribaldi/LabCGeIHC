@@ -54,7 +54,8 @@ float rot1pd = 0.0, rot2pd = 0.0, rot3pd = 0.0, rot4pd = 0.0;
 ///Pierna 2 (Izquierdo)
 float rot1pi = 0.0, rot2pi = 0.0, rot3pi = 0.0, rot4pi = 0.0;
 bool sentido = true;
-
+///giros de la caja
+float rot0 = 0.0, dz = 0.0;
 double deltaTime;
 
 // Se definen todos las funciones.
@@ -286,6 +287,16 @@ bool processInput(bool continueApplication) {
 		rot4pi -= 0.01;
 	sentido = true;
 
+	////////////////////////////// Gire todo el box
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+		rot0 = 0.001;
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+		rot0 = -0.001;
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+		dz = 0.001;
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+		dz = -0.001;
+
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)//se agregan estas dos lineas para mover la camara, hacia enfrente
 		camera->moveFrontCamera(true, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)//se agregan estas dos lineas para mover la camara, hacia atras
@@ -307,6 +318,8 @@ bool processInput(bool continueApplication) {
 
 void applicationLoop() {
 	bool psi = true;
+	///Quitar esta linea fuera del While
+	glm::mat4 model = glm::mat4(1.0f);
 	while (psi) {
 		psi = processInput(true);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -320,7 +333,7 @@ void applicationLoop() {
 		shader.setMatrix4("projection", 1, false, glm::value_ptr(projection));
 		shader.setMatrix4("view", 1, false, glm::value_ptr(view));
 
-		glm::mat4 model = glm::mat4(1.0f);
+		//glm::mat4 model = glm::mat4(1.0f);
 
 		//vizualizar con lineas la geometria
 		//sphere1.enableWireMode();//se descomentan y se intercambia de lugar,//comentando esta linea para descubrir que realiza esa funcion
@@ -330,7 +343,9 @@ void applicationLoop() {
 		/*cylinder1.render(model);
 		cylinder1.enableWireMode();*/
 
-		box1.enableWireMode();
+		model = glm::translate(model, glm::vec3(0, 0, dz));
+		model = glm::rotate(model, rot0, glm::vec3(0, 1, 0));
+		//box1.enableWireMode();
 		box1.render(glm::scale(model, glm::vec3(1.0, 1.0, 0.1)));
 
 		//articulacion
@@ -462,6 +477,8 @@ void applicationLoop() {
 		cylinder1.render(glm::scale(laa2, glm::vec3(0.1, 0.5, 0.1)));
 
 		shader.turnOff();
+		dz = 0;
+		rot0 = 0;
 		glfwSwapBuffers(window);
 	}
 }
