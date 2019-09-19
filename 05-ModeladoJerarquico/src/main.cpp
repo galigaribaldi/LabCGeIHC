@@ -426,7 +426,7 @@ void applicationLoop() {
 
 		model = glm::translate(model, glm::vec3(0, 0, dz));
 		model = glm::rotate(model, rot0, glm::vec3(0, 1, 0));
-		/*
+	
 		//box1.enableWireMode();
 		box1.render(glm::scale(model, glm::vec3(1.0, 1.0, 0.1)));
 
@@ -561,18 +561,18 @@ void applicationLoop() {
 		shader.turnOff();
 		dz = 0;
 		rot0 = 0;
-		*/
+	
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		////////////////////////////////////////////////////////////////// Figura 2 ///////////////////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		glm::mat4 projection2 = glm::perspective(glm::radians(120.0f), (float)screenWidth / (float)screenHeight, 0.01f, 1000.0f);
 		glm::mat4 view2 = camera->getViewMatrix();
 
-		shader.setMatrix4("projection2", 1, false, glm::value_ptr(projection));
-		shader.setMatrix4("view2", 1, false, glm::value_ptr(view));
-
-		model2 = glm::translate(model, glm::vec3(0, 0, dz));
-		model2 = glm::rotate(model, rot0, glm::vec3(0, 1, 0));
+		shader.setMatrix4("projection2", 1, false, glm::value_ptr(projection2));
+		shader.setMatrix4("view2", 1, false, glm::value_ptr(view2));
+		
+		model2 = glm::translate(model2, glm::vec3(0, 0, dz));
+		model2 = glm::rotate(model2, rot0, glm::vec3(0, 1, 0));
 		///Cuerpo principal
 		//cylinder12.enableWireMode();
 		cylinder12.render(glm::scale(model2, glm::vec3(0.5, 0.5, 0.5)));
