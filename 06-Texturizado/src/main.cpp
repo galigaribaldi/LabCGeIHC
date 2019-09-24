@@ -355,13 +355,13 @@ bool processInput(bool continueApplication) {
 
 
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-		rot0 = 0.0001;
+		rot0 = 0.01;
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		rot0 = -0.0001;
+		rot0 = -0.01;
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		dz = 0.0001;
+		dz = 0.01;
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		dz = -0.0001;
+		dz = -0.01;
 
 	sentido = true;
 
@@ -463,10 +463,25 @@ void applicationLoop() {
 		cylinder2.render(0,cylinder2.getSlices() * cylinder2.getStacks()*6 ,modelCylinder);
 		glBindTexture(GL_TEXTURE_2D, textureID2);
 		/////////////////////////////////////////////////
-		/*
-		cylinder2.render(0, cylinder2.getSlices() * cylinder2.getStacks() * 6 + cylinder2.getSlices(), modelCylinder);
+		// Envolvente desde el indice 0, el tamanio es 20 * 20 * 6
+		// Se usa la textura 1 ( Bon sponja)
+		glBindTexture(GL_TEXTURE_2D, textureID1);
+		cylinder2.render(0, cylinder2.getSlices() * cylinder2.getStacks() * 6,
+			modelCylinder);
+		// Tapa Superior desde el indice : 20 * 20 * 6, el tamanio de indices es 20 * 3
+		// Se usa la textura 2 ( Agua )
+		glBindTexture(GL_TEXTURE_2D, textureID2);
+		cylinder2.render(cylinder2.getSlices() * cylinder2.getStacks() * 6,
+			cylinder2.getSlices() * 3,
+			modelCylinder);
+		// Tapa inferior desde el indice : 20 * 20 * 6 + 20 * 3, el tamanio de indices es 20 * 3
+		// Se usa la textura 3 ( Goku )
+		glBindTexture(GL_TEXTURE_2D, textureID3);
+		cylinder2.render(cylinder2.getSlices() * cylinder2.getStacks() * 6 + cylinder2.getSlices() * 3,
+			cylinder2.getSlices() * 3,
+			modelCylinder);
+
 		glBindTexture(GL_TEXTURE_2D, 0);
-		*/
 
 		shader.turnOff();
 
