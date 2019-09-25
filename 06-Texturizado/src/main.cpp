@@ -48,7 +48,7 @@ Cylinder cylinder2(20, 20, 0.5, 0.5);
 Box box1, box2;
 
 // Descomentar
-GLuint textureID1, textureID2, textureID3;
+GLuint textureID1, textureID2, textureID3, textureID4, textureID5, textureID6;
 
 bool exitApp = false;
 int lastMousePosX, offsetX = 0;
@@ -56,7 +56,15 @@ int lastMousePosY, offsetY = 0;
 
 float rot0 = 0.0, dz = 0.0;
 
+///Brazo 1 (izquierdo)
 float rot1 = 0.0, rot2 = 0.0, rot3 = 0.0, rot4 = 0.0;
+///Brazo 2 (Derecho)
+float rot1d = 0.0, rot2d = 0.0, rot3d = 0.0, rot4d = 0.0;
+///Pierna 1 (Derecho)
+float rot1pd = 0.0, rot2pd = 0.0, rot3pd = 0.0, rot4pd = 0.0;
+///Pierna 2 (Izquierdo)
+float rot1pi = 0.0, rot2pi = 0.0, rot3pi = 0.0, rot4pi = 0.0;
+//bool sentido = true;
 bool sentido = true;
 
 double deltaTime;
@@ -257,6 +265,102 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	else
 		std::cout << "Failed to load texture" << std::endl;
 	texture3.freeImage(bitmap);
+
+	////////////////////////////////////////////////////Textura lata Cuerpo//////////////////////////////////////////////
+	Texture texture4("../Textures/Coca.jpg");
+	//Carga el mapa de bits(Es el tipo de dato de la libreria)
+	///Esto para voltear mi imagen
+	bitmap = texture4.loadImage(true);
+	//convertimos el mapa de bits en un arreglo unidimensional de tipo unseigned char
+	data = texture4.convertToData(bitmap, imageWidth,
+		imageHeight);
+	//creando la textura con id 4
+	glGenTextures(1, &textureID4);
+	//enlazar ese ID o textura a un tipo de textura de 2D
+	glBindTexture(GL_TEXTURE_2D, textureID4);
+	// set the texture wrapping parameters coloca los parametros del wrapping
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//Aqui simplemente verifica si se pudo abrir la textura
+	if (data) {
+		//tranformar los datos de la imagen a memoria
+		//Tipo de textura, formato interno OpenGL, ancho, alto, Mimaps
+		//formato inter de la libreria, el tipo de dato y el papuntador a los datos
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0,
+			GL_BGRA, GL_UNSIGNED_BYTE, data);
+		//generan los nuveles del mipmap(OpenGl es el encargado de realizarlos)
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+		std::cout << "Failed to load texture" << std::endl;
+	texture4.freeImage(bitmap);
+
+	////////////////////////////////////////////////////Textura lata Tapa arriba//////////////////////////////////////////////
+	Texture texture5("../Textures/tapa.jpg");
+	//Carga el mapa de bits(Es el tipo de dato de la libreria)
+	///Esto para voltear mi imagen
+	bitmap = texture5.loadImage(true);
+	//convertimos el mapa de bits en un arreglo unidimensional de tipo unseigned char
+	data = texture5.convertToData(bitmap, imageWidth,
+		imageHeight);
+	//creando la textura con id 5
+	glGenTextures(1, &textureID5);
+	//enlazar ese ID o textura a un tipo de textura de 2D
+	glBindTexture(GL_TEXTURE_2D, textureID5);
+	// set the texture wrapping parameters coloca los parametros del wrapping
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//Aqui simplemente verifica si se pudo abrir la textura
+	if (data) {
+		//tranformar los datos de la imagen a memoria
+		//Tipo de textura, formato interno OpenGL, ancho, alto, Mimaps
+		//formato inter de la libreria, el tipo de dato y el papuntador a los datos
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0,
+			GL_BGRA, GL_UNSIGNED_BYTE, data);
+		//generan los nuveles del mipmap(OpenGl es el encargado de realizarlos)
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+		std::cout << "Failed to load texture" << std::endl;
+	texture5.freeImage(bitmap);
+
+	////////////////////////////////////////////////////Textura lata Tapa abajo//////////////////////////////////////////////
+	Texture texture6("../Textures/Tapa_inferior.jpg");
+	//Carga el mapa de bits(Es el tipo de dato de la libreria)
+	///Esto para voltear mi imagen
+	bitmap = texture6.loadImage(true);
+	//convertimos el mapa de bits en un arreglo unidimensional de tipo unseigned char
+	data = texture6.convertToData(bitmap, imageWidth,
+		imageHeight);
+	//creando la textura con id 5
+	glGenTextures(1, &textureID6);
+	//enlazar ese ID o textura a un tipo de textura de 2D
+	glBindTexture(GL_TEXTURE_2D, textureID6);
+	// set the texture wrapping parameters coloca los parametros del wrapping
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//Aqui simplemente verifica si se pudo abrir la textura
+	if (data) {
+		//tranformar los datos de la imagen a memoria
+		//Tipo de textura, formato interno OpenGL, ancho, alto, Mimaps
+		//formato inter de la libreria, el tipo de dato y el papuntador a los datos
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0,
+			GL_BGRA, GL_UNSIGNED_BYTE, data);
+		//generan los nuveles del mipmap(OpenGl es el encargado de realizarlos)
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+		std::cout << "Failed to load texture" << std::endl;
+	texture6.freeImage(bitmap);
 }
 
 void destroy() {
@@ -322,46 +426,114 @@ bool processInput(bool continueApplication) {
 	TimeManager::Instance().CalculateFrameRate(false);
 	deltaTime = TimeManager::Instance().DeltaTime;
 
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		camera->moveFrontCamera(true, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		camera->moveFrontCamera(false, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		camera->moveRightCamera(false, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera->moveRightCamera(true, deltaTime);
+
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 		camera->mouseMoveCamera(offsetX, offsetY, 0.01);
 	offsetX = 0;
 	offsetY = 0;
 
+	///rotacion Brazo Izquierdo
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 		sentido = false;
-
 	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS && sentido)
-		rot1 += 0.01;
+		rot1 += 0.001;
 	else if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS && !sentido)
 		rot1 -= 0.01;
-	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS
-			&& glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-		rot2 += 0.01;
-	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS
-			&& glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
+	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS && sentido)
+		rot2 += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS && !sentido)
 		rot2 -= 0.01;
 	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS && sentido)
-		rot3 += 0.01;
+		rot3 += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS && !sentido)
+		rot3 -= 0.01;
 	if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS && sentido)
-		rot4 += 0.01;
+		rot4 += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS && !sentido)
+		rot4 -= 0.01;
+	sentido = true;
 
+	///rotacion Brazo derecho
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		sentido = false;
+	if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS && sentido)
+		rot1d += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS && !sentido)
+		rot1d -= 0.01;
+	if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS && sentido)
+		rot2d += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS && !sentido)
+		rot2d -= 0.01;
+	if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS && sentido)
+		rot3d += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS && !sentido)
+		rot3d -= 0.01;
+	if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS && sentido)
+		rot4d += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS && !sentido)
+		rot4d -= 0.01;
+	sentido = true;
 
+	///rotacion Pierna Derecha
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		sentido = false;
+	if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS && sentido)
+		rot1pd += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS && !sentido)
+		rot1pd -= 0.01;
+	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS && sentido)
+		rot2pd += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS && !sentido)
+		rot2pd -= 0.01;
+	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS && sentido)
+		rot3pd += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS && !sentido)
+		rot3pd -= 0.01;
+	if (glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS && sentido)
+		rot4pd += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS && !sentido)
+		rot4pd -= 0.01;
+	sentido = true;
+
+	///rotacion Pierna Izquierda
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		sentido = false;
+	if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS && sentido)
+		rot1pi += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS && !sentido)
+		rot1pi -= 0.01;
+	if (glfwGetKey(window, GLFW_KEY_N) == GLFW_PRESS && sentido)
+		rot2pi += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_N) == GLFW_PRESS && !sentido)
+		rot2pi -= 0.01;
+	if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS && sentido)
+		rot3pi += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS && !sentido)
+		rot3pi -= 0.01;
+	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && sentido)
+		rot4pi += 0.001;
+	else if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS && !sentido)
+		rot4pi -= 0.01;
+	sentido = true;
+
+	////////////////////////////// Gire todo el box
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-		rot0 = 0.01;
+		rot0 = 0.001;
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		rot0 = -0.01;
+		rot0 = -0.001;
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		dz = 0.01;
+		dz = 0.001;
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		dz = -0.01;
+		dz = -0.001;
+
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)//se agregan estas dos lineas para mover la camara, hacia enfrente
+		camera->moveFrontCamera(true, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)//se agregan estas dos lineas para mover la camara, hacia atras
+		camera->moveFrontCamera(false, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)//se agregan estas dos lineas para mover la camara, hacia la derecha
+		camera->moveRightCamera(false, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)//se agregan estas dos lineas para mover la camara, hacia la izquierda
+		camera->moveRightCamera(true, deltaTime);
 
 	sentido = true;
 
@@ -397,45 +569,144 @@ void applicationLoop() {
 		glBindTexture(GL_TEXTURE_2D, textureID1);
 		shaderTexture.setFloat("offsetX", 0);
 		box1.render(glm::scale(model, glm::vec3(1.0, 1.0, 0.1)));
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//Usamos la textura ID 1 para los cilindros de los brazos
+		glBindTexture(GL_TEXTURE_2D, textureID1);
+		shaderTexture.setFloat("offsetX", 0);
+		cylinder1.render(glm::scale(model, glm::vec3(0.1, 0.5, 0.1)));
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//Descomentar
 		//No utilizar ninguna textura
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 
-		// Articulacion 1
-		glm::mat4 j1 = glm::translate(model, glm::vec3(0.5f, 0.0f, 0.0f));
-		j1 = glm::rotate(j1, rot1, glm::vec3(0, 0, 1));
-		j1 = glm::rotate(j1, rot2, glm::vec3(0, 1, 0));
+		//articulacion
+		glm::mat4 j1 = glm::translate(model, glm::vec3(0.5f, 0.0f, 0.0f));//se agrego esta linea para empezar a modelar a la esponja
 		sphere1.enableWireMode();
 		sphere1.render(glm::scale(j1, glm::vec3(0.1, 0.1, 0.1)));
+		j1 = glm::rotate(j1, rot1, glm::vec3(0, 0, 1));
+		j1 = glm::rotate(j1, rot2, glm::vec3(0, 1, 0));
 
-		// Hueso 1
-		glm::mat4 l1 = glm::translate(j1, glm::vec3(0.25f, 0.0, 0.0));
+		//hueso 1
+		glm::mat4 l1 = glm::translate(j1, glm::vec3(0.25f, 0.0f, 0.0f));
 		l1 = glm::rotate(l1, glm::radians(90.0f), glm::vec3(0, 0, 1.0));
 		cylinder1.enableWireMode();
 		cylinder1.render(glm::scale(l1, glm::vec3(0.1, 0.5, 0.1)));
 
-		// Articulacion 2
-		glm::mat4 j2 = glm::translate(j1, glm::vec3(0.5, 0.0f, 0.0f));
-		j2 = glm::rotate(j2, rot3, glm::vec3(0.0, 0.0, 1.0));
-		j2 = glm::rotate(j2, rot4, glm::vec3(1.0, 0.0, 0.0));
+		//articulacion 2
+		glm::mat4 j2 = glm::translate(j1, glm::vec3(0.5f, 0.0f, 0.0f));
 		sphere1.enableWireMode();
 		sphere1.render(glm::scale(j2, glm::vec3(0.1, 0.1, 0.1)));
+		j2 = glm::rotate(j2, rot3, glm::vec3(0, 0, 1));
+		j2 = glm::rotate(j2, rot4, glm::vec3(0, 1, 0));
 
-		// Hueso 2
+		//hueso 2
 		glm::mat4 l2 = glm::translate(j2, glm::vec3(0.25, 0.0, 0.0));
-		l2 = glm::rotate(l2, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
-		//cylinder1.enableWireMode();
+		l2 = glm::rotate(l2, glm::radians(90.0f), glm::vec3(0, 0, 1.0));
+		cylinder1.enableWireMode();
 		cylinder1.render(glm::scale(l2, glm::vec3(0.1, 0.5, 0.1)));
 
-		// Ojo
-		glm::mat4 ojo = glm::translate(model, glm::vec3(0.25, 0.25, 0.05));
-		//sphere1.enableWireMode();
-		sphere1.render(glm::scale(ojo, glm::vec3(0.2, 0.2, 0.1)));
+		//ojo 1
+		glm::mat4 o1 = glm::translate(model, glm::vec3(0.25f, 0.25f, 0.05f));
+		sphere1.enableWireMode();
+		sphere1.render(glm::scale(o1, glm::vec3(0.20f, 0.20f, 0.10f)));
 
-		glm::mat4 ojo2 = glm::translate(model, glm::vec3(-0.25, 0.25, 0.05));
-		//sphere2.enableWireMode();
-		sphere2.render(glm::scale(ojo2, glm::vec3(0.2, 0.2, 0.1)));
+		//ojo 2
+		glm::mat4 o2 = glm::translate(model, glm::vec3(-0.25f, 0.25f, 0.05f));
+		sphere1.enableWireMode();
+		sphere1.render(glm::scale(o2, glm::vec3(0.20f, 0.20f, 0.10f)));
+
+		//Nariz
+		glm::mat4 n1 = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.05f));
+		sphere1.enableWireMode();
+		sphere1.render(glm::scale(n1, glm::vec3(0.20f, 0.20f, 0.10f)));
+
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		/////////////////////////////////////Parte izquierda//////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		//articulacion
+		glm::mat4 ji1 = glm::translate(model, glm::vec3(-0.5f, 0.0f, 0.0f));//se agrego esta linea para empezar a modelar a la esponja
+		sphere1.enableWireMode();
+		sphere1.render(glm::scale(ji1, glm::vec3(0.1, 0.1, 0.1)));
+		ji1 = glm::rotate(ji1, rot1d, glm::vec3(0, 0, 1));
+		ji1 = glm::rotate(ji1, rot2d, glm::vec3(0, 1, 0));
+
+		//hueso 1
+		glm::mat4 li1 = glm::translate(ji1, glm::vec3(-0.25f, 0.0f, 0.0f));
+		li1 = glm::rotate(li1, glm::radians(90.0f), glm::vec3(0, 0, 1.0));
+		cylinder1.enableWireMode();
+		cylinder1.render(glm::scale(li1, glm::vec3(0.1, 0.5, 0.1)));
+
+		//articulacion 2
+		glm::mat4 ji2 = glm::translate(ji1, glm::vec3(-0.5f, 0.0f, 0.0f));
+		sphere1.enableWireMode();
+		sphere1.render(glm::scale(ji2, glm::vec3(-0.1, 0.1, 0.1)));
+		ji2 = glm::rotate(ji2, rot3d, glm::vec3(0, 0, 1));
+		ji2 = glm::rotate(ji2, rot4d, glm::vec3(0, 1, 0));
+
+		//hueso 2
+		glm::mat4 li2 = glm::translate(ji2, glm::vec3(-0.25, 0.0, 0.0));
+		li2 = glm::rotate(li2, glm::radians(90.0f), glm::vec3(0, 0, 1.0));
+		cylinder1.enableWireMode();
+		cylinder1.render(glm::scale(li2, glm::vec3(-0.1, 0.5, 0.1)));
+
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		/////////////////////////////////////Parte Abajo///////////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
+
+		//articulacion
+		glm::mat4 ja1 = glm::translate(model, glm::vec3(-0.25f, -0.5f, 0.0f));//se agrego esta linea para empezar a modelar a la esponja
+		sphere1.enableWireMode();
+		sphere1.render(glm::scale(ja1, glm::vec3(-0.1, 0.1, 0.1)));
+		ja1 = glm::rotate(ja1, rot1pd, glm::vec3(0, 0, 1));
+		ja1 = glm::rotate(ja1, rot2pd, glm::vec3(0, 1, 0));
+
+		//hueso 1
+		glm::mat4 la1 = glm::translate(ja1, glm::vec3(-0.015f, -0.25f, 0.0f));
+		la1 = glm::rotate(la1, glm::radians(180.0f), glm::vec3(0, 0, 1.0));
+		cylinder1.enableWireMode();
+		cylinder1.render(glm::scale(la1, glm::vec3(0.1, 0.5, 0.1)));
+
+		//articulacion 2
+		glm::mat4 ja2 = glm::translate(ja1, glm::vec3(-0.015f, -0.5f, 0.0f));
+		sphere1.enableWireMode();
+		sphere1.render(glm::scale(ja2, glm::vec3(0.1, 0.1, 0.1)));
+		ja2 = glm::rotate(ja2, rot3pd, glm::vec3(0, 0, 1));
+		ja2 = glm::rotate(ja2, rot4pd, glm::vec3(0, 1, 0));
+		//hueso 2
+		glm::mat4 la2 = glm::translate(ja2, glm::vec3(-0.015f, -0.25f, 0.0f));
+		la2 = glm::rotate(la2, glm::radians(180.0f), glm::vec3(0, 0, 1.0));
+		cylinder1.enableWireMode();
+		cylinder1.render(glm::scale(la2, glm::vec3(0.1, 0.5, 0.1)));
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////77
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//articulacion 2
+		glm::mat4 jaa1 = glm::translate(model, glm::vec3(0.25f, -0.5f, 0.0f));//se agrego esta linea para empezar a modelar a la esponja
+		sphere1.enableWireMode();
+		sphere1.render(glm::scale(jaa1, glm::vec3(-0.1, 0.1, 0.1)));
+		jaa1 = glm::rotate(jaa1, rot1pi, glm::vec3(0, 0, 1));
+		jaa1 = glm::rotate(jaa1, rot2pi, glm::vec3(0, 1, 0));
+
+		//hueso 12
+		glm::mat4 laa1 = glm::translate(jaa1, glm::vec3(0.015f, -0.25f, 0.0f));
+		laa1 = glm::rotate(laa1, glm::radians(180.0f), glm::vec3(0, 0, 1.0));
+		cylinder1.enableWireMode();
+		cylinder1.render(glm::scale(laa1, glm::vec3(0.1, 0.5, 0.1)));
+
+		//articulacion 22
+		glm::mat4 jaa2 = glm::translate(jaa1, glm::vec3(0.015f, -0.5f, 0.0f));
+		sphere1.enableWireMode();
+		sphere1.render(glm::scale(jaa2, glm::vec3(0.1, 0.1, 0.1)));
+		jaa2 = glm::rotate(jaa2, rot3pi, glm::vec3(0, 0, 1));
+		jaa2 = glm::rotate(jaa2, rot4pi, glm::vec3(0, 1, 0));
+
+		//hueso 22
+		glm::mat4 laa2 = glm::translate(jaa2, glm::vec3(0.015f, -0.25f, 0.0f));
+		laa2 = glm::rotate(laa2, glm::radians(180.0f), glm::vec3(0, 0, 1.0));
+		cylinder1.enableWireMode();
+		cylinder1.render(glm::scale(laa2, glm::vec3(0.1, 0.5, 0.1)));
 
 		glm::mat4 modelAgua = glm::mat4(1.0);
 		modelAgua = glm::translate(modelAgua, glm::vec3(0.0, -3.0, 0.0));
@@ -457,26 +728,26 @@ void applicationLoop() {
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////7
 		glm::mat4 modelCylinder = glm::mat4(1.0);
 		modelCylinder = glm::translate(modelCylinder, glm::vec3(-3.0, 0.0, 0.0));
-		glBindTexture(GL_TEXTURE_2D, textureID1);
+		glBindTexture(GL_TEXTURE_2D, textureID4);
 		shaderTexture.setFloat("offsetX", 0);
 		////////////////////////////////////////////////////////////
 		cylinder2.render(0,cylinder2.getSlices() * cylinder2.getStacks()*6 ,modelCylinder);
 		glBindTexture(GL_TEXTURE_2D, textureID2);
 		/////////////////////////////////////////////////
 		// Envolvente desde el indice 0, el tamanio es 20 * 20 * 6
-		// Se usa la textura 1 ( Bon sponja)
+		// Se usa la textura 1 ( Bob sponja)
 		glBindTexture(GL_TEXTURE_2D, textureID1);
 		cylinder2.render(0, cylinder2.getSlices() * cylinder2.getStacks() * 6,
 			modelCylinder);
 		// Tapa Superior desde el indice : 20 * 20 * 6, el tamanio de indices es 20 * 3
 		// Se usa la textura 2 ( Agua )
-		glBindTexture(GL_TEXTURE_2D, textureID2);
+		glBindTexture(GL_TEXTURE_2D, textureID5);
 		cylinder2.render(cylinder2.getSlices() * cylinder2.getStacks() * 6,
 			cylinder2.getSlices() * 3,
 			modelCylinder);
 		// Tapa inferior desde el indice : 20 * 20 * 6 + 20 * 3, el tamanio de indices es 20 * 3
 		// Se usa la textura 3 ( Goku )
-		glBindTexture(GL_TEXTURE_2D, textureID3);
+		glBindTexture(GL_TEXTURE_2D, textureID6);
 		cylinder2.render(cylinder2.getSlices() * cylinder2.getStacks() * 6 + cylinder2.getSlices() * 3,
 			cylinder2.getSlices() * 3,
 			modelCylinder);
