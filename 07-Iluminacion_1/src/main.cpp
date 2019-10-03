@@ -453,8 +453,8 @@ void applicationLoop() {
 		shaderColorLighting.setMatrix4("view", 1, false, glm::value_ptr(view));
 		//shaderColorLighting.setVectorFloat3("viewPos", glm::value_ptr(camera->getPosition()));
 		shaderColorLighting.setVectorFloat3("light.ambient", glm::value_ptr(glm::vec3(0.3, 0.3, 0.3)));
-		shaderColorLighting.setVectorFloat3("light.diffuse", glm::value_ptr(glm::vec3(0.4, 0.3, 0.3)));
-		shaderColorLighting.setVectorFloat3("light.specular", glm::value_ptr(glm::vec3(0.9, 0.0, 0.0)));
+		shaderColorLighting.setVectorFloat3("light.diffuse", glm::value_ptr(glm::vec3(0.6, 0.6, 0.6)));
+		//shaderColorLighting.setVectorFloat3("light.specular", glm::value_ptr(glm::vec3(0.9, 0.9, 0.9)));
 
 		glm::mat4 lightModelmatrix = glm::rotate(glm::mat4(1.0f), angle, glm::vec3(1.0f, 0.0f, 0.0f));
 		lightModelmatrix = glm::translate(lightModelmatrix, glm::vec3(0.0f, 0.0f, -ratio));
