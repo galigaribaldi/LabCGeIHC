@@ -707,17 +707,90 @@ void applicationLoop() {
 			+ cylinder2.getSlices() * 3, cylinder2.getSlices() * 3,
 			modelCylinder);
 		glBindTexture(GL_TEXTURE_2D, 0);
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// Render del cubo con textura de ladrillos y con repeticion en x
 		glm::mat4 cubeTextureModel = glm::mat4(1.0);
 		cubeTextureModel = glm::translate(cubeTextureModel,
-			glm::vec3(3.0, 2.0, 3.0));
+			glm::vec3(0.0, 2.0, 0.0));
 		glBindTexture(GL_TEXTURE_2D, textureID4);
 		shaderTexture.setVectorFloat2("scaleUV",
 			glm::value_ptr(glm::vec2(2.0, 1.0)));
 		box3.render(cubeTextureModel);
 		glBindTexture(GL_TEXTURE_2D, 0);
+////////////////////////////////////////////////////////////
+		glm::mat4 cubeTextureModel2 = glm::mat4(1.0);
+		cubeTextureModel2 = glm::translate(cubeTextureModel2,
+			glm::vec3(1.0, 2.0, 0.0));
+		glBindTexture(GL_TEXTURE_2D, textureID4);
+		shaderTexture.setVectorFloat2("scaleUV",
+			glm::value_ptr(glm::vec2(2.0, 1.0)));
+		box3.render(cubeTextureModel2);
+		glBindTexture(GL_TEXTURE_2D, 0);
 
+////////////////////////////////////////////////////////////
+		glm::mat4 cubeTextureModel3 = glm::mat4(1.0);
+		cubeTextureModel3 = glm::translate(cubeTextureModel3,
+			glm::vec3(2.0, 2.0, 0.0));
+		glBindTexture(GL_TEXTURE_2D, textureID4);
+		shaderTexture.setVectorFloat2("scaleUV",
+			glm::value_ptr(glm::vec2(2.0, 1.0)));
+		box3.render(cubeTextureModel3);
+		glBindTexture(GL_TEXTURE_2D, 0);
+////////////////////////////////////////////////////////////
+		glm::mat4 cubeTextureModel4 = glm::mat4(1.0);
+		cubeTextureModel4 = glm::translate(cubeTextureModel4,
+			glm::vec3(3.0, 2.0, 0.0));
+		glBindTexture(GL_TEXTURE_2D, textureID4);
+		shaderTexture.setVectorFloat2("scaleUV",
+			glm::value_ptr(glm::vec2(2.0, 1.0)));
+		box3.render(cubeTextureModel4);
+		glBindTexture(GL_TEXTURE_2D, 0);
+////////////////////////////////////////////////////////////
+		glm::mat4 cubeTextureModel5 = glm::mat4(1.0);
+		cubeTextureModel5 = glm::translate(cubeTextureModel5,
+			glm::vec3(4.0, 2.0, 0.0));
+		glBindTexture(GL_TEXTURE_2D, textureID4);
+		shaderTexture.setVectorFloat2("scaleUV",
+			glm::value_ptr(glm::vec2(2.0, 1.0)));
+		box3.render(cubeTextureModel5);
+		glBindTexture(GL_TEXTURE_2D, 0);
+////////////////////////////////////////////////////////////
+		glm::mat4 cubeTextureModel6 = glm::mat4(1.0);
+		cubeTextureModel6 = glm::translate(cubeTextureModel6,
+			glm::vec3(5.0, 2.0, 0.0));
+		glBindTexture(GL_TEXTURE_2D, textureID4);
+		shaderTexture.setVectorFloat2("scaleUV",
+			glm::value_ptr(glm::vec2(2.0, 1.0)));
+		box3.render(cubeTextureModel6);
+		glBindTexture(GL_TEXTURE_2D, 0);
+////////////////////////////////////////////////////////////
+		glm::mat4 cubeTextureModel7 = glm::mat4(1.0);
+		cubeTextureModel7 = glm::translate(cubeTextureModel7,
+			glm::vec3(6.0, 2.0, 0.0));
+		glBindTexture(GL_TEXTURE_2D, textureID4);
+		shaderTexture.setVectorFloat2("scaleUV",
+			glm::value_ptr(glm::vec2(2.0, 1.0)));
+		box3.render(cubeTextureModel7);
+		glBindTexture(GL_TEXTURE_2D, 0);
+////////////////////////////////////////////////////////////
+		glm::mat4 cubeTextureModel8 = glm::mat4(1.0);
+		cubeTextureModel8 = glm::translate(cubeTextureModel8,
+			glm::vec3(7.0, 2.0, 0.0));
+		glBindTexture(GL_TEXTURE_2D, textureID4);
+		shaderTexture.setVectorFloat2("scaleUV",
+			glm::value_ptr(glm::vec2(2.0, 1.0)));
+		box3.render(cubeTextureModel8);
+		glBindTexture(GL_TEXTURE_2D, 0);
+////////////////////////////////////////////////////////////
+		glm::mat4 cubeTextureModel9 = glm::mat4(1.0);
+		cubeTextureModel9 = glm::translate(cubeTextureModel9,
+			glm::vec3(6.0, 2.0, 0.0));
+		glBindTexture(GL_TEXTURE_2D, textureID4);
+		shaderTexture.setVectorFloat2("scaleUV",
+			glm::value_ptr(glm::vec2(2.0, 1.0)));
+		box3.render(cubeTextureModel9);
+		glBindTexture(GL_TEXTURE_2D, 0);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// Render del cyindro con materiales
 		// Descomentar
 		glm::mat4 cylinderMaterialModel = glm::mat4(1.0);
