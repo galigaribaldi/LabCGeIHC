@@ -71,7 +71,7 @@ Box box1;
 Box box2;
 Box box3;
 
-GLuint textureID1, textureID2, textureID3, textureID4, textureID5, textureID6, textureID7, textureID8;
+GLuint textureID1, textureID2, textureID3, textureID4, textureID5, textureID6, textureID7, textureID8, textureID9;
 // Descomentar
 GLuint skyboxTextureID;
 
@@ -508,6 +508,41 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	// Libera la memoria de la textura
 	texture8.freeImage(bitmap);
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Definiendo la textura a utilizar
+	Texture texture9("../Textures/door2.jpg");
+	// Carga el mapa de bits (FIBITMAP es el tipo de dato de la libreria)
+	// Voltear la imagen
+	bitmap = texture9.loadImage(true);
+	// Convertimos el mapa de bits en un arreglo unidimensional de tipo unsigned char
+	data = texture9.convertToData(bitmap, imageWidth, imageHeight);
+	// Creando la textura con id 1
+	glGenTextures(1, &textureID9);
+	// Enlazar esa textura a una tipo de textura de 2D.
+	glBindTexture(GL_TEXTURE_2D, textureID9);
+	// set the texture wrapping parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // set texture wrapping to GL_REPEAT (default wrapping method)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// Verifica si se pudo abrir la textura
+	if (data) {
+		// Transferis los datos de la imagen a memoria
+		// Tipo de textura, Mipmaps, Formato interno de openGL, ancho, alto, Mipmaps,
+		// Formato interno de la libreria de la imagen, el tipo de dato y al apuntador
+		// a los datos
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0,
+			GL_BGRA, GL_UNSIGNED_BYTE, data);
+		// Generan los niveles del mipmap (OpenGL es el ecargado de realizarlos)
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+		std::cout << "Failed to load texture" << std::endl;
+	// Libera la memoria de la textura
+	texture9.freeImage(bitmap);
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	// Descomentar
 	// Carga de texturas para el skybox
 	Texture skyboxTexture = Texture("");//se descomenta este pedazo de codigo
@@ -991,6 +1026,28 @@ void applicationLoop() {
 		shaderTexture.setVectorFloat2("scaleUV", glm::value_ptr(glm::vec2(2.0, 1.0)));
 		box3.render(glm::scale(pared40, glm::vec3(0.1, 2.0, 3.0)));
 		glBindTexture(GL_TEXTURE_2D, 0);
+		///////////////////////////////////////Puertas//////////////////////////////////////////////////////////
+		glm::mat4 puerta1 = glm::mat4(1.0);
+		puerta1 = glm::translate(puerta1, glm::vec3(7.0, 2.0, 1.0));
+		glBindTexture(GL_TEXTURE_2D, textureID9);
+		shaderTexture.setVectorFloat2("scaleUV", glm::value_ptr(glm::vec2(2.0, 1.0)));
+		box3.render(glm::scale(puerta1, glm::vec3(0.1, 2.0, 1.0)));
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		glm::mat4 puerta12 = glm::mat4(1.0);
+		puerta12 = glm::translate(puerta12, glm::vec3(7.0, 2.0, 5.0));
+		glBindTexture(GL_TEXTURE_2D, textureID9);
+		shaderTexture.setVectorFloat2("scaleUV", glm::value_ptr(glm::vec2(2.0, 1.0)));
+		box3.render(glm::scale(puerta12, glm::vec3(0.1, 2.0, 1.0)));
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		glm::mat4 puerta13 = glm::mat4(1.0);
+		puerta13 = glm::translate(puerta13, glm::vec3(5.0, 2.0, 3.0));
+		glBindTexture(GL_TEXTURE_2D, textureID9);
+		shaderTexture.setVectorFloat2("scaleUV", glm::value_ptr(glm::vec2(2.0, 1.0)));
+		box3.render(glm::scale(puerta13, glm::vec3(0.1, 2.0, 1.0)));
+		glBindTexture(GL_TEXTURE_2D, 0);
+		///////////////////////////////////////Fin Puertas//////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
