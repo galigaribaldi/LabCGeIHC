@@ -80,7 +80,7 @@ Box boxWall;
 Model modelRock;
 Model modelRailRoad;
 Model modelAircraft;
-
+Model modelCarro;
 GLuint textureID1, textureID2, textureID3, textureID4, textureID5, textureID6, textureID7, textureID8, textureID9, textureID17, textureID18;
 GLuint skyboxTextureID;
 ///Brazo 1 (izquierdo)
@@ -282,6 +282,8 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	modelAircraft.loadModel("../models/Aircraft_obj/E 45 Aircraft_obj.obj");
 	modelAircraft.setShader(&shaderMulLighting);
 
+	modelCarro.loadModel("../models/Tabel/table.obj");
+	modelCarro.setShader(&shaderMulLighting);
 	camera->setPosition(glm::vec3(0.0, 3.0, 4.0));
 
 	// Descomentar
@@ -321,7 +323,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	texture1.freeImage(bitmap);
 
 	// Definiendo la textura a utilizar
-	Texture texture2("../Textures/water.jpg");
+	Texture texture2("../Textures/pavimento.jpg");
 	// Carga el mapa de bits (FIBITMAP es el tipo de dato de la libreria)
 	bitmap = texture2.loadImage();
 	// Convertimos el mapa de bits en un arreglo unidimensional de tipo unsigned char
@@ -1256,7 +1258,59 @@ void applicationLoop() {
 		/*
 		* Se construye la casa
 		*/
+		//Models complex render
+		glm::mat4 matrixModelRock = glm::mat4(1.0);
+		matrixModelRock = glm::translate(matrixModelRock, glm::vec3(-8.0, 5.0, 6.0));
+		modelRock.render(matrixModelRock);
+		// Forze to enable the unit texture to 0 always ----------------- IMPORTANT
+		glActiveTexture(GL_TEXTURE0);
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		glm::mat4 matrixModelCarro = glm::mat4(1.0);
+		matrixModelCarro = glm::translate(matrixModelCarro, glm::vec3(-8.0, 10.0, 6.0));
+		modelCarro.render(matrixModelCarro);
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Esto es para la pista
 
+		glm::mat4 modelPista = glm::mat4(1.0);
+		modelPista = glm::translate(modelPista, glm::vec3(5.0, 1.0, 16.0));
+		modelPista = glm::scale(modelPista, glm::vec3(50.0, 0.01, 5.0));
+		//// Se activa la textura
+		glBindTexture(GL_TEXTURE_2D, textureID2);
+		shaderTexture.setFloat("offsetX", offX);
+		box2.render(modelPista);
+		glBindTexture(GL_TEXTURE_2D, 0);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7
+		glm::mat4 modelPistaT = glm::mat4(1.0);
+		modelPistaT = glm::translate(modelPistaT, glm::vec3(5.0, 1.0, -16.0));
+		modelPistaT = glm::scale(modelPistaT, glm::vec3(50.0, 0.01, 5.0));
+		//// Se activa la textura
+		glBindTexture(GL_TEXTURE_2D, textureID2);
+		shaderTexture.setFloat("offsetX", offX);
+		box2.render(modelPistaT);
+		glBindTexture(GL_TEXTURE_2D, 0);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7
+		glm::mat4 modelPistaI = glm::mat4(1.0);
+		modelPistaI = glm::translate(modelPistaI, glm::vec3(-20.0, 1.0, 0.0));
+		modelPistaI = glm::scale(modelPistaI, glm::vec3(5.0, 0.01, 40.0));
+		//// Se activa la textura
+		glBindTexture(GL_TEXTURE_2D, textureID2);
+		shaderTexture.setFloat("offsetX", offX);
+		box2.render(modelPistaI);
+		glBindTexture(GL_TEXTURE_2D, 0);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7
+		glm::mat4 modelPistaD = glm::mat4(1.0);
+		modelPistaD = glm::translate(modelPistaD, glm::vec3(20.0, 1.0, 0.0));
+		modelPistaD = glm::scale(modelPistaD, glm::vec3(5.0, 0.01, 40.0));
+		//// Se activa la textura
+		glBindTexture(GL_TEXTURE_2D, textureID2);
+		shaderTexture.setFloat("offsetX", offX);
+		box2.render(modelPistaD);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+	
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Forze to enable the unit texture to 0 always ----------------- IMPORTANT
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textureID4);
 		boxWall.setScale(glm::vec3(10.0, 5.0, 0.05));
 		boxWall.setPosition(glm::vec3(-10.0, 2.5, 0.0));
