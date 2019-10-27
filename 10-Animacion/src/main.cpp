@@ -81,6 +81,10 @@ Model modelRock;
 Model modelRailRoad;
 Model modelAircraft;
 Model modelCarro;
+Model modelchasis;
+Model modelheli;
+Model modelMi_24;
+Model tabla;
 GLuint textureID1, textureID2, textureID3, textureID4, textureID5, textureID6, textureID7, textureID8, textureID9, textureID17, textureID18;
 GLuint skyboxTextureID;
 ///Brazo 1 (izquierdo)
@@ -284,6 +288,19 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 
 	modelCarro.loadModel("../models/Eclipse/2003eclipse.obj");
 	modelCarro.setShader(&shaderMulLighting);
+
+	modelchasis.loadModel("../models/Helicopter/Mi_24_chasis.obj");
+	modelchasis.setShader(&shaderMulLighting);
+
+	modelheli.loadModel("../models/Helicopter/Mi_24_heli.obj");
+	modelheli.setShader(&shaderMulLighting);
+
+	modelMi_24.loadModel("../models/Helicopter/Mi_24.obj");
+	modelMi_24.setShader(&shaderMulLighting);
+	///Modelo de la tabla
+	tabla.loadModel("../models/Wood_Table/Wood_Table.obj");
+	tabla.setShader(&shaderMulLighting);
+
 	camera->setPosition(glm::vec3(0.0, 3.0, 4.0));
 
 	// Descomentar
@@ -922,11 +939,22 @@ void applicationLoop() {
 	float offX = 0.0;
 	float angle = 0.0;
 	float ratio = 30.0;
+	////NAve
 	glm::mat4 matrixModelAircraft = glm::mat4(1.0);
 	matrixModelAircraft = glm::translate(matrixModelAircraft, glm::vec3(8.0, 2.0, -10.0));
+	//Carro
+	glm::mat4 matrixModelCarro = glm::mat4(1.0);
+	matrixModelCarro = glm::translate(matrixModelCarro, glm::vec3(-20.0, 1.0, -10.0));
+	///Helicoptero
+	glm::mat4 matrixModelMi_24 = glm::mat4(1.0);
+	matrixModelMi_24 = glm::translate(matrixModelMi_24, glm::vec3(0.0, 5.0, 5.0));
 	int state = 0;
 	float offsetAircraftAdvance = 0.0;
+	float offsetCarAdvance = 0.0;
 	float offsetairfart = 0.0;
+	float offsetCarfart = 0.0;
+	float offsetNaveArriba = 0.0;
+	float offsetNaveAbajo = 0.0;
 	while (psi) {
 		psi = processInput(true);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -1262,12 +1290,25 @@ void applicationLoop() {
 		glm::mat4 matrixModelRock = glm::mat4(1.0);
 		matrixModelRock = glm::translate(matrixModelRock, glm::vec3(-8.0, 5.0, 6.0));
 		modelRock.render(matrixModelRock);
+		///////////Modelo Tabla
+		glm::mat4 matrixModelTabla = glm::mat4(1.0);
+		matrixModelTabla = glm::translate(matrixModelTabla, glm::vec3(2.0, 1.0, 6.0));
+		tabla.render(matrixModelTabla);
 		// Forze to enable the unit texture to 0 always ----------------- IMPORTANT
 		glActiveTexture(GL_TEXTURE0);
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		glm::mat4 matrixModelCarro = glm::mat4(1.0);
-		matrixModelCarro = glm::translate(matrixModelCarro, glm::vec3(5.0, 1.0, 17.0));
+/*
+		modelchasis.render(matrixModelMi_24_chasis);
+		glActiveTexture(GL_TEXTURE0);
+
+		modelheli.render(matrixModelMi_24_heli);
+		glActiveTexture(GL_TEXTURE0);
+
+		modelMi_24.render(matrixModelMi_24);
+		glActiveTexture(GL_TEXTURE0);
+		*/
 		modelCarro.render(matrixModelCarro);
+		glActiveTexture(GL_TEXTURE0);
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// Esto es para la pista
 
@@ -2831,7 +2872,21 @@ void applicationLoop() {
 		//matrixModelAircraft = glm::translate(matrixModelAircraft, glm::vec3(8.0, 2.0, -10.0));
 		modelAircraft.render(matrixModelAircraft);
 		glActiveTexture(GL_TEXTURE0);
+		///
 
+		modelMi_24.render(matrixModelMi_24);
+		glActiveTexture(GL_TEXTURE0);
+		///
+/*		glm::mat4 matrixModelMi_24_chasis = glm::mat4(1.0);
+		matrixModelMi_24_chasis = glm::translate(matrixModelMi_24_chasis, glm::vec3(0.0, 4.0, 0.0));
+		modelchasis.render(matrixModelMi_24_chasis);
+		glActiveTexture(GL_TEXTURE0);
+		///
+		glm::mat4 matrixModelMi_24_heli = glm::mat4(1.0);
+		matrixModelMi_24_heli = glm::translate(matrixModelMi_24_heli, glm::vec3(0.0, 10.0, 0.0));
+		modelheli.render(matrixModelMi_24_heli);
+		glActiveTexture(GL_TEXTURE0);
+		*/
 		if (angle > 2 * M_PI)
 			angle = 0.0;
 		else
@@ -2855,22 +2910,47 @@ void applicationLoop() {
 		offX += 0.001;
 		switch (state) {
 		case 0:
-			std::cout << "Advance: " << std::endl;
+			//std::cout << "Advance Aircraft: " << std::endl;
 			//-0.01 debe se rigual
-			matrixModelAircraft = glm::translate(matrixModelAircraft, glm::vec3(0.0, 0.0, -0.1));
-			offsetAircraftAdvance += 0.01;
-			if (offsetAircraftAdvance > 5.0) {
-				offsetAircraftAdvance = 0.0;
+			//matrixModelAircraft = glm::translate(matrixModelAircraft, glm::vec3(0.0, 0.0, -0.1));
+			//offsetAircraftAdvance += 0.01;
+			//if (offsetAircraftAdvance > 5.0) {
+			//	offsetAircraftAdvance = 0.0;
+			//	state = 1;
+			//}
+			////////////////////////////////////////////////////////////////////////////////////////
+			std::cout << "Advance Car: " << std::endl;
+			std::cout << "Helicopter Up: " << std::endl;
+			matrixModelCarro = glm::translate(matrixModelCarro, glm::vec3(0.0, 0.0, 0.1));
+			matrixModelMi_24 = glm::translate(matrixModelMi_24, glm::vec3(0.0, 0.1, 0.0));
+			offsetCarAdvance += 0.1;
+			offsetNaveArriba += 0.1;
+			if (offsetCarAdvance > 40.0) {
+				offsetCarAdvance = 0.0;
+				offsetNaveArriba = 0.0;
 				state = 1;
 			}
 			break;
 		case 1:
-			std::cout << "Turn: " << std::endl;
-			matrixModelAircraft = glm::translate(matrixModelAircraft, glm::vec3(0,0,-0.001));
-			matrixModelAircraft = glm::rotate(matrixModelAircraft, glm::radians(0.05f), glm::vec3(0, 1, 0));
-			offsetairfart += 0.05;
-			if (offsetairfart > 90.0) {
-				offsetairfart = 0.0;
+//			std::cout << "Turn: " << std::endl;
+//			matrixModelAircraft = glm::translate(matrixModelAircraft, glm::vec3(0,0,-0.001));
+//			matrixModelAircraft = glm::rotate(matrixModelAircraft, glm::radians(0.05f), glm::vec3(0, 1, 0));
+//			offsetairfart += 0.05;
+//			if (offsetairfart > 90.0) {
+//				offsetairfart = 0.0;
+//				state = 0;
+//			}
+//			break;
+			//////////////////////////////////////////////////////////////////////////7
+			std::cout << "Turn: Car " << std::endl;
+			matrixModelCarro = glm::translate(matrixModelCarro, glm::vec3(0, 0, -0.001));
+			matrixModelCarro = glm::rotate(matrixModelCarro, glm::radians(0.05f), glm::vec3(0, 1, 0));
+			matrixModelMi_24 = glm::translate(matrixModelMi_24, glm::vec3(0.0, -0.01, 0.0));
+			offsetCarfart += 0.05;
+			offsetNaveAbajo += 0.5;
+			if (offsetCarfart > 90.0) {
+				offsetCarfart = 0.0;
+				offsetNaveAbajo = 0.0;
 				state = 0;
 			}
 			break;
