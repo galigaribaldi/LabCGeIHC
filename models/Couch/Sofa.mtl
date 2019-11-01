@@ -1,0 +1,46 @@
+# Blender MTL File: 'Sofa.blend'
+# Material Count: 4
+
+newmtl Madera
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.287072 0.098244 0.015575
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd wood.jpg
+
+newmtl Madera_NONE
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.287072 0.098244 0.015575
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd wood.jpg
+
+newmtl Terciopelo2
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.114915 0.640000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd velvet-freepik-rawpixel-dot-com.jpg
+
+newmtl Terciopelo2_velvet-freepik-rawpixel-dot-com.jpg
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.114915 0.640000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd velvet-freepik-rawpixel-dot-com.jpg

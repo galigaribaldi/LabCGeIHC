@@ -85,7 +85,9 @@ Model modelchasis;
 Model modelheli;
 Model modelMi_24;
 Model tabla;
-GLuint textureID1, textureID2, textureID3, textureID4, textureID5, textureID6, textureID7, textureID8, textureID9, textureID17, textureID18;
+Model sofa;
+Model modelCalabaza;
+GLuint textureID1, textureID2, textureID3, textureID4, textureID5, textureID6, textureID7, textureID8, textureID9, textureID17, textureID18, textureID20;
 GLuint skyboxTextureID;
 ///Brazo 1 (izquierdo)
 float rot1 = 0.0, rot2 = 0.0, rot3 = 0.0, rot4 = 0.0;
@@ -277,7 +279,7 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	boxWall.init();
 	boxWall.setShader(&shaderMulLighting);
 
-	modelRock.loadModel("../models/rock/rock.obj");
+	modelRock.loadModel("../models/Table_2/Mesa.obj");
 	modelRock.setShader(&shaderMulLighting);
 
 	modelRailRoad.loadModel("../models/railroad/railroad_track.obj");
@@ -300,7 +302,12 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	///Modelo de la tabla
 	tabla.loadModel("../models/Wood_Table/Wood_Table.obj");
 	tabla.setShader(&shaderMulLighting);
-
+	///Modelo Sofa
+//	sofa.loadModel("../models/Chair/Chair.obj");
+//	sofa.setShader(&shaderMulLighting);
+	///modelo Calabaza
+	//modelCalabaza.loadModel("../models/Pine/Tree2.obj");
+	//modelCalabaza.setShader(&shaderMulLighting);
 	camera->setPosition(glm::vec3(0.0, 3.0, 4.0));
 
 	// Descomentar
@@ -652,6 +659,38 @@ void init(int width, int height, std::string strTitle, bool bFullScreen) {
 	glGenTextures(1, &textureID17);
 	//enlazar ese ID o textura a un tipo de textura de 2D
 	glBindTexture(GL_TEXTURE_2D, textureID17);
+	// set the texture wrapping parameters coloca los parametros del wrapping
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//Aqui simplemente verifica si se pudo abrir la textura
+	if (data) {
+		//tranformar los datos de la imagen a memoria
+		//Tipo de textura, formato interno OpenGL, ancho, alto, Mimaps
+		//formato inter de la libreria, el tipo de dato y el papuntador a los datos
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0,
+			GL_BGRA, GL_UNSIGNED_BYTE, data);
+		//generan los nuveles del mipmap(OpenGl es el encargado de realizarlos)
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+		std::cout << "Failed to load texture" << std::endl;
+	texture17.freeImage(bitmap);
+
+	////////////////////////////////////////////////////Textura Vela//////////////////////////////////////////////
+	Texture texture20("../Textures/vela.jpg");
+	//Carga el mapa de bits(Es el tipo de dato de la libreria)
+	///Esto para voltear mi imagen
+	bitmap = texture20.loadImage(true);
+	//convertimos el mapa de bits en un arreglo unidimensional de tipo unseigned char
+	data = texture20.convertToData(bitmap, imageWidth,
+		imageHeight);
+	//creando la textura con id 5
+	glGenTextures(1, &textureID20);
+	//enlazar ese ID o textura a un tipo de textura de 2D
+	glBindTexture(GL_TEXTURE_2D, textureID20);
 	// set the texture wrapping parameters coloca los parametros del wrapping
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -1111,13 +1150,18 @@ void applicationLoop() {
 		sphereLamp.render();
 		///Amarillo
 		sphereLamp.setScale(glm::vec3(0.1, 0.1, 0.2));
-		sphereLamp.setPosition(glm::vec3(-14.9, 4.8, -5.0));
-		sphereLamp.setColor(glm::vec4(0.6, 0.6, 0.0, 0.0));
+		sphereLamp.setPosition(glm::vec3(3.0, 2.0,1.0));
+		sphereLamp.setColor(glm::vec4(1.0, 0.6, 0.0, 0.0));
 		sphereLamp.render();
 		///Amarillo 2
 		sphereLamp.setScale(glm::vec3(0.1, 0.1, 0.2));
-		sphereLamp.setPosition(glm::vec3(-10.9, 4.8, -5.0));
-		sphereLamp.setColor(glm::vec4(0.6, 0.6, 0.0, 0.0));
+		sphereLamp.setPosition(glm::vec3(2.0, 2.0, 1.0));
+		sphereLamp.setColor(glm::vec4(1.0, 0.6, 0.0, 0.0));
+		sphereLamp.render();
+		///Amarillo 3
+		sphereLamp.setScale(glm::vec3(0.1, 0.1, 0.2));
+		sphereLamp.setPosition(glm::vec3(4.0, 2.0, 1.0));
+		sphereLamp.setColor(glm::vec4(1.0, 0.6, 0.0, 0.0));
 		sphereLamp.render();
 
 		glm::mat4 lightModelmatrix = glm::rotate(glm::mat4(1.0f), angle,
@@ -1289,11 +1333,16 @@ void applicationLoop() {
 		//Models complex render
 		glm::mat4 matrixModelRock = glm::mat4(1.0);
 		matrixModelRock = glm::translate(matrixModelRock, glm::vec3(-8.0, 5.0, 6.0));
-		modelRock.render(matrixModelRock);
+		modelRock.render(glm::scale(matrixModelRock, glm::vec3(0.3, 0.3, 0.3)));
+		
 		///////////Modelo Tabla
 		glm::mat4 matrixModelTabla = glm::mat4(1.0);
 		matrixModelTabla = glm::translate(matrixModelTabla, glm::vec3(2.0, 1.0, 6.0));
 		tabla.render(matrixModelTabla);
+		////Modelo Calabaza
+		//glm::mat4 matrixModelCalabaza = glm::mat4(1.0);
+		//matrixModelCalabaza = glm::translate(matrixModelCalabaza, glm::vec3(-7.0, 6.0, 6.0));
+		//modelCalabaza.render(matrixModelCalabaza);
 		// Forze to enable the unit texture to 0 always ----------------- IMPORTANT
 		glActiveTexture(GL_TEXTURE0);
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2876,7 +2925,26 @@ void applicationLoop() {
 
 		modelMi_24.render(matrixModelMi_24);
 		glActiveTexture(GL_TEXTURE0);
-		///
+		////////////////////////////////////Velas/////////////////////////////////////
+		glm::mat4 modelCylinder20 = glm::mat4(1.0);
+		modelCylinder20 = glm::translate(modelCylinder20, glm::vec3(-3.0, 0.5, 0.0));
+		// Envolvente desde el indice 0, el tamanio es 20 * 20 * 6
+		// Se usa la textura 1 ( Bon sponja)
+		glBindTexture(GL_TEXTURE_2D, textureID20);
+		cylinder2.render(0, cylinder2.getSlices() * cylinder2.getStacks() * 6, modelCylinder20);
+		// Tapa Superior desde el indice : 20 * 20 * 6, el tamanio de indices es 20 * 3
+		// Se usa la textura 2 ( Agua )
+		glBindTexture(GL_TEXTURE_2D, textureID20);
+
+		//cylinder2.render(cylinder2.getSlices() * cylinder2.getStacks() * 6, cylinder2.getSlices() * 3, modelCylinder20);
+		// Tapa inferior desde el indice : 20 * 20 * 6 + 20 * 3, el tamanio de indices es 20 * 3
+		// Se usa la textura 3 ( Goku )
+		//glBindTexture(GL_TEXTURE_2D, textureID3);
+		//cylinder2.render(cylinder2.getSlices() * cylinder2.getStacks() * 6 + cylinder2.getSlices() * 3, cylinder2.getSlices() * 3, modelCylinder);
+		//glBindTexture(GL_TEXTURE_2D, 0);
+		////////////////////////////////////Velas/////////////////////////////////////
+
+
 /*		glm::mat4 matrixModelMi_24_chasis = glm::mat4(1.0);
 		matrixModelMi_24_chasis = glm::translate(matrixModelMi_24_chasis, glm::vec3(0.0, 4.0, 0.0));
 		modelchasis.render(matrixModelMi_24_chasis);
@@ -2945,7 +3013,7 @@ void applicationLoop() {
 			std::cout << "Turn: Car " << std::endl;
 			matrixModelCarro = glm::translate(matrixModelCarro, glm::vec3(0, 0, -0.001));
 			matrixModelCarro = glm::rotate(matrixModelCarro, glm::radians(0.05f), glm::vec3(0, 1, 0));
-			matrixModelMi_24 = glm::translate(matrixModelMi_24, glm::vec3(0.0, -0.01, 0.0));
+			matrixModelMi_24 = glm::translate(matrixModelMi_24, glm::vec3(0.0, -0.1, 0.0));
 			offsetCarfart += 0.05;
 			offsetNaveAbajo += 0.5;
 			if (offsetCarfart > 90.0) {
